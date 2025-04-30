@@ -1,0 +1,13 @@
+name: simple-andre
+
+services:
+  app:
+    image: andretanwee/simple-apps-andre
+    build: ./app
+    ports:
+      -"3000:3000"
+    volumes:
+      - "vol-simple:/app/public/image"
+
+volumes:
+  vol-simple:
