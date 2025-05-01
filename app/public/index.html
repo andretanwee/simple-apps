@@ -6,418 +6,282 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Training DevOps</title>
     <style>
-        :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --success-color: #4cc9f0;
-            --bg-color: #f8f9fa;
-            --text-color: #333;
-            --error-color: #ef476f;
-            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            --input-bg: #ffffff;
-            --anim-duration: 0.6s;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background: var(--bg-color);
+            background-color: #f5f5f5;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            width: 100%;
-            max-width: 420px;
+            height: 100vh;
+            padding: 20px;
         }
-
-        .logo {
-            max-width: 120px;
-            margin-bottom: 20px;
-            animation: fadeInDown var(--anim-duration) ease-out;
+        
+        .login-container {
+            display: flex;
+            width: 800px;
+            max-width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        h1 {
-            color: var(--text-color);
-            margin-bottom: 30px;
-            text-align: center;
-            font-weight: 600;
-            animation: fadeInDown var(--anim-duration) ease-out;
-            animation-delay: 0.1s;
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
-
-        .login-card {
-            background: white;
-            width: 100%;
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-            animation: fadeInUp var(--anim-duration) ease-out;
-            animation-delay: 0.2s;
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
-
-        .login-card h2 {
-            color: var(--text-color);
-            margin-bottom: 24px;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
+        
+        .login-sidebar {
+            background-color: #e63946;
+            color: white;
+            padding: 40px;
+            width: 42%;
             position: relative;
+            overflow: hidden;
         }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-color);
-            font-size: 0.9rem;
+        
+        .login-sidebar h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
             font-weight: 500;
         }
-
-        .input-group input {
+        
+        .login-sidebar p {
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .login-form {
+            width: 58%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .form-label .required {
+            color: #e63946;
+            margin-right: 5px;
+        }
+        
+        .form-control {
             width: 100%;
-            padding: 12px 16px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: var(--input-bg);
+            border-radius: 4px;
+            font-size: 16px;
+            color: #666;
         }
-
-        .input-group input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        
+        .form-control:focus {
             outline: none;
+            border-color: #e63946;
         }
-
-        .input-icon {
-            position: absolute;
-            right: 16px;
-            top: 38px;
-            color: #aaa;
-            cursor: pointer;
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: 5px;
         }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 6px;
-            background: var(--primary-color);
+        
+        .forgot-password a {
+            color: #e63946;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .btn-login {
+            background-color: #e63946;
             color: white;
-            font-size: 1rem;
-            font-weight: 600;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 4px;
+            font-size: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            width: fit-content;
             margin-top: 10px;
         }
-
-        .btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
+        
+        .btn-login:hover {
+            background-color: #d62b39;
         }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            font-size: 0.85rem;
-        }
-
-        .remember-me {
+        
+        .register-links {
             display: flex;
             align-items: center;
-            gap: 8px;
+            margin-top: 15px;
         }
-
-        .options a {
-            color: var(--primary-color);
+        
+        .register-links .atau {
+            margin-right: 5px;
+            color: #666;
+        }
+        
+        .register-links a {
+            color: #e63946;
             text-decoration: none;
-            transition: all 0.3s ease;
         }
-
-        .options a:hover {
-            color: var(--secondary-color);
+        
+        .register-links a:hover {
             text-decoration: underline;
         }
-
-        .divider {
+        
+        .logo {
+            position: absolute;
+            bottom: 40px;
             display: flex;
             align-items: center;
-            margin: 20px 0;
-            color: #aaa;
-            font-size: 0.85rem;
         }
-
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #ddd;
-        }
-
-        .divider span {
-            padding: 0 10px;
-        }
-
-        .social-login {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        
+        .logo-icon {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
-            background: #f1f3f5;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            margin-right: 10px;
         }
-
-        .social-btn:hover {
-            background: #e9ecef;
-            transform: translateY(-2px);
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
         }
-
-        .footer-text {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #888;
-            animation: fadeIn var(--anim-duration) ease-out;
-            animation-delay: 0.3s;
-            opacity: 0;
-            animation-fill-mode: forwards;
+        
+        .logo-title {
+            font-weight: bold;
+            font-size: 18px;
         }
-
-        .footer-text a {
-            color: var(--primary-color);
-            text-decoration: none;
+        
+        .logo-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
         }
-
-        .footer-text a:hover {
-            text-decoration: underline;
-        }
-
-        /* Error message styling */
-        .error-message {
-            color: var(--error-color);
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
-        }
-
-        /* Animations */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Password visibility toggle icon */
-        .toggle-password {
+        
+        .background-pattern {
             position: absolute;
-            right: 15px;
-            top: 40px;
-            cursor: pointer;
-            color: #aaa;
+            width: 250px;
+            height: 250px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+            background: url("data:image/svg+xml,%3Csvg width='250' height='250' viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50,25 Q100,0 150,25 T250,75 T150,125 T50,175 T0,125' fill='none' stroke='white' stroke-width='40'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 0;
         }
-
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 30px 20px;
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .login-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                max-width: 400px;
+            }
+            
+            .login-sidebar, .login-form {
+                width: 100%;
+            }
+            
+            .login-sidebar {
+                padding: 30px;
+            }
+            
+            .logo {
+                position: relative;
+                bottom: auto;
+                margin-top: 30px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <img class="logo" src="./images/idn-logo.png" alt="idn-logo">
-        <h1>Belajar DevOps</h1>
-        
-        <div class="login-card">
-            <h2>Login to Your Account</h2>
-            <form id="login-form">
-                <div class="input-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
-                    <div class="error-message" id="username-error">Please enter a valid username</div>
+    <div class="login-container">
+        <div class="login-sidebar">
+            <h1>Login</h1>
+            <p>Silahkan login agar bisa mendaftar training kami</p>
+            
+            <div class="background-pattern"></div>
+            
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="25" cy="25" r="23" fill="white"/>
+                        <path d="M25,5 L45,25 L25,45 L5,25 Z" fill="#e63946"/>
+                        <circle cx="25" cy="25" r="8" fill="white"/>
+                    </svg>
                 </div>
-                
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
-                    <span class="toggle-password" onclick="togglePasswordVisibility()">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </span>
-                    <div class="error-message" id="password-error">Password must be at least 6 characters</div>
+                <div class="logo-text">
+                    <span class="logo-title">ID-Networkers</span>
+                    <span class="logo-subtitle">Learning Factory</span>
                 </div>
-                
-                <div class="options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember-me" name="remember-me">
-                        <label for="remember-me">Remember me</label>
-                    </div>
-                    <a href="#">Forgot Password?</a>
-                </div>
-                
-                <button type="submit" class="btn" id="login-btn">Login</button>
-                
-                <div class="divider">
-                    <span>OR</span>
-                </div>
-                
-                <div class="social-login">
-                    <div class="social-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#4285F4">
-                            <path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81Z"/>
-                        </svg>
-                    </div>
-                    <div class="social-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#1877F2">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                        </svg>
-                    </div>
-                    <div class="social-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#000000">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                        </svg>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
         
-        <p class="footer-text">
-            Don't have an account? <a href="#">Register</a>
-        </p>
+        <div class="login-form">
+            <div class="form-group">
+                <div class="form-label">
+                    <span class="required">*</span> Email
+                </div>
+                <input type="email" class="form-control" placeholder="Masukkan Email" required>
+            </div>
+            
+            <div class="form-group">
+                <div class="form-label">
+                    <span class="required">*</span> Password
+                </div>
+                <input type="password" class="form-control" placeholder="Masukkan Password" required>
+                <div class="forgot-password">
+                    <a href="#">Lupa password?</a>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-login">Login</button>
+            
+            <div class="register-links">
+                <span class="atau">atau</span>
+                <a href="#">Daftar / Resend Email Verifikasi</a>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Toggle password visibility
-        function togglePasswordVisibility() {
-            const passwordInput = document.getElementById('password');
-            const toggleIcon = document.querySelector('.toggle-password svg');
+        // Simple form validation
+        document.querySelector('.btn-login').addEventListener('click', function(e) {
+            e.preventDefault();
             
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.innerHTML = `
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <line x1="1" y1="1" x2="23" y2="23"></line>
-                `;
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.innerHTML = `
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                `;
-            }
-        }
-
-        // Form validation
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+            const email = document.querySelector('input[type="email"]').value;
+            const password = document.querySelector('input[type="password"]').value;
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            let isValid = true;
-            
-            // Reset error messages
-            document.getElementById('username-error').style.display = 'none';
-            document.getElementById('password-error').style.display = 'none';
-            
-            // Basic validation
-            if (username.trim() === '') {
-                document.getElementById('username-error').style.display = 'block';
-                isValid = false;
+            if (!email || !password) {
+                alert('Please fill in all required fields');
+                return;
             }
             
-            if (password.length < 6) {
-                document.getElementById('password-error').style.display = 'block';
-                isValid = false;
-            }
+            // Simulate login process
+            this.textContent = 'Loading...';
+            this.disabled = true;
             
-            if (isValid) {
-                // Add login animation
-                document.getElementById('login-btn').innerHTML = 'Logging in...';
-                
-                // Simulate login (replace with actual login logic)
-                setTimeout(() => {
-                    // Here you would normally make an API call to your backend
-                    alert('Login successful!');
-                    document.getElementById('login-btn').innerHTML = 'Login';
-                }, 1500);
-            }
-        });
-
-        // Add subtle animation on input focus
-        const inputs = document.querySelectorAll('input');
-        inputs.forEach(input => {
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'translateY(-2px)';
-                this.parentElement.style.transition = 'transform 0.3s ease';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'translateY(0)';
-            });
+            setTimeout(() => {
+                alert('Login successful!');
+                this.textContent = 'Login';
+                this.disabled = false;
+            }, 1500);
         });
     </script>
 </body>
