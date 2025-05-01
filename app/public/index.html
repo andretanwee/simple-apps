@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Training DevOps</title>
+    <title>IDN Networkers</title>
     <style>
         * {
             margin: 0;
@@ -22,7 +22,7 @@
             padding: 20px;
         }
         
-        .login-container {
+        .container {
             display: flex;
             width: 800px;
             max-width: 100%;
@@ -30,9 +30,10 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
         
-        .login-sidebar {
+        .sidebar {
             background-color: #e63946;
             color: white;
             padding: 40px;
@@ -41,18 +42,22 @@
             overflow: hidden;
         }
         
-        .login-sidebar h1 {
+        .sidebar h1 {
             font-size: 28px;
             margin-bottom: 10px;
             font-weight: 500;
+            position: relative;
+            z-index: 2;
         }
         
-        .login-sidebar p {
+        .sidebar p {
             font-size: 16px;
             line-height: 1.4;
+            position: relative;
+            z-index: 2;
         }
         
-        .login-form {
+        .content {
             width: 58%;
             padding: 40px;
             display: flex;
@@ -81,11 +86,13 @@
             border-radius: 4px;
             font-size: 16px;
             color: #666;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
         
         .form-control:focus {
             outline: none;
             border-color: #e63946;
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
         }
         
         .forgot-password {
@@ -99,7 +106,7 @@
             font-size: 14px;
         }
         
-        .btn-login {
+        .btn {
             background-color: #e63946;
             color: white;
             border: none;
@@ -108,30 +115,35 @@
             font-size: 16px;
             cursor: pointer;
             width: fit-content;
-            margin-top: 10px;
+            transition: background-color 0.3s, transform 0.2s;
         }
         
-        .btn-login:hover {
+        .btn:hover {
             background-color: #d62b39;
+            transform: translateY(-2px);
         }
         
-        .register-links {
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .links {
             display: flex;
             align-items: center;
             margin-top: 15px;
         }
         
-        .register-links .atau {
+        .links .atau {
             margin-right: 5px;
             color: #666;
         }
         
-        .register-links a {
+        .links a {
             color: #e63946;
             text-decoration: none;
         }
         
-        .register-links a:hover {
+        .links a:hover {
             text-decoration: underline;
         }
         
@@ -140,6 +152,7 @@
             bottom: 40px;
             display: flex;
             align-items: center;
+            z-index: 2;
         }
         
         .logo-icon {
@@ -174,31 +187,207 @@
             background: url("data:image/svg+xml,%3Csvg width='250' height='250' viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50,25 Q100,0 150,25 T250,75 T150,125 T50,175 T0,125' fill='none' stroke='white' stroke-width='40'/%3E%3C/svg%3E");
             background-size: contain;
             background-repeat: no-repeat;
-            z-index: 0;
+            z-index: 1;
+        }
+        
+        /* Forms */
+        .form {
+            display: none;
+        }
+        
+        .form.active {
+            display: block;
+        }
+        
+        .back-link {
+            color: #666;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .back-link svg {
+            margin-right: 5px;
+        }
+        
+        .back-link:hover {
+            color: #e63946;
+        }
+        
+        .form-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .instruction {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .reset-message, .verify-message, .register-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            flex-direction: column;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(230, 57, 70, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #e63946;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading p {
+            color: #666;
         }
         
         /* Animation */
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .login-container {
+        .container {
             animation: fadeIn 0.5s ease-out;
+        }
+        
+        .form-enter {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* User Dashboard */
+        .user-panel {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .user-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #e63946;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .user-info h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .user-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .user-menu {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .menu-item:hover {
+            color: #e63946;
+        }
+        
+        .menu-item svg {
+            margin-right: 10px;
+        }
+        
+        .user-actions {
+            margin-top: auto;
+        }
+        
+        .logout-btn {
+            background-color: transparent;
+            color: #e63946;
+            border: 1px solid #e63946;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .logout-btn svg {
+            margin-right: 5px;
+        }
+        
+        .logout-btn:hover {
+            background-color: #e6394610;
+        }
+        
+        /* Error message */
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 14px;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .login-container {
+            .container {
                 flex-direction: column;
                 max-width: 400px;
             }
             
-            .login-sidebar, .login-form {
+            .sidebar, .content {
                 width: 100%;
             }
             
-            .login-sidebar {
+            .sidebar {
                 padding: 30px;
             }
             
@@ -211,8 +400,8 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-sidebar">
+    <div class="container">
+        <div class="sidebar">
             <h1>Login</h1>
             <p>Silahkan login agar bisa mendaftar training kami</p>
             
@@ -233,55 +422,409 @@
             </div>
         </div>
         
-        <div class="login-form">
-            <div class="form-group">
-                <div class="form-label">
-                    <span class="required">*</span> Email
-                </div>
-                <input type="email" class="form-control" placeholder="Masukkan Email" required>
+        <div class="content">
+            <!-- Loading Indicator -->
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Please wait...</p>
             </div>
             
-            <div class="form-group">
-                <div class="form-label">
-                    <span class="required">*</span> Password
+            <!-- Login Form -->
+            <form class="form active" id="login-form">
+                <div class="error-message" id="login-error">
+                    Invalid username or password. Please try again.
                 </div>
-                <input type="password" class="form-control" placeholder="Masukkan Password" required>
-                <div class="forgot-password">
-                    <a href="#">Lupa password?</a>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Email
+                    </div>
+                    <input type="email" class="form-control" id="login-email" placeholder="Masukkan Email" required>
                 </div>
-            </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Password
+                    </div>
+                    <input type="password" class="form-control" id="login-password" placeholder="Masukkan Password" required>
+                    <div class="forgot-password">
+                        <a href="#" id="forgot-password-link">Lupa password?</a>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn" id="login-button">Login</button>
+                
+                <div class="links">
+                    <span class="atau">atau</span>
+                    <a href="#" id="register-link">Daftar</a>
+                    <span class="atau">/</span>
+                    <a href="#" id="resend-verification-link">Resend Email Verifikasi</a>
+                </div>
+            </form>
             
-            <button type="submit" class="btn-login">Login</button>
+            <!-- Forgot Password Form -->
+            <form class="form" id="forgot-password-form">
+                <div class="back-link" id="back-to-login-from-forgot">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Back to Login
+                </div>
+                
+                <h2 class="form-title">Reset Password</h2>
+                <p class="instruction">Enter your email address and we'll send you a link to reset your password.</p>
+                
+                <div class="reset-message" id="reset-success">
+                    We've sent a password reset link to your email. Please check your inbox.
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Email
+                    </div>
+                    <input type="email" class="form-control" id="reset-email" placeholder="Enter your email" required>
+                </div>
+                
+                <button type="submit" class="btn" id="reset-button">Send Reset Link</button>
+            </form>
             
-            <div class="register-links">
-                <span class="atau">atau</span>
-                <a href="#">Daftar / Resend Email Verifikasi</a>
+            <!-- Resend Verification Form -->
+            <form class="form" id="resend-verification-form">
+                <div class="back-link" id="back-to-login-from-resend">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Back to Login
+                </div>
+                
+                <h2 class="form-title">Resend Verification Email</h2>
+                <p class="instruction">Enter your email address and we'll send you a new verification link.</p>
+                
+                <div class="verify-message" id="verify-success">
+                    We've sent a new verification link to your email. Please check your inbox.
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Email
+                    </div>
+                    <input type="email" class="form-control" id="verify-email" placeholder="Enter your email" required>
+                </div>
+                
+                <button type="submit" class="btn" id="verify-button">Send Verification Link</button>
+            </form>
+            
+            <!-- Registration Form -->
+            <form class="form" id="register-form">
+                <div class="back-link" id="back-to-login-from-register">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Back to Login
+                </div>
+                
+                <h2 class="form-title">Register</h2>
+                <p class="instruction">Create a new account to access our training programs.</p>
+                
+                <div class="register-success" id="register-success">
+                    Registration successful! Please check your email to verify your account.
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Full Name
+                    </div>
+                    <input type="text" class="form-control" id="register-name" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Email
+                    </div>
+                    <input type="email" class="form-control" id="register-email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Password
+                    </div>
+                    <input type="password" class="form-control" id="register-password" placeholder="Create a password" required>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="required">*</span> Confirm Password
+                    </div>
+                    <input type="password" class="form-control" id="register-password-confirm" placeholder="Confirm your password" required>
+                </div>
+                
+                <button type="submit" class="btn" id="register-button">Register</button>
+            </form>
+            
+            <!-- User Dashboard (after login) -->
+            <div class="user-panel" id="user-dashboard">
+                <div class="user-header">
+                    <div class="user-avatar">U</div>
+                    <div class="user-info">
+                        <h2 id="user-name">User Name</h2>
+                        <p id="user-email">user@example.com</p>
+                    </div>
+                </div>
+                
+                <div class="user-menu">
+                    <a href="https://www.idn.id/training" class="menu-item" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                        Available Training
+                    </a>
+                    <a href="https://www.idn.id/my-courses" class="menu-item" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        My Courses
+                    </a>
+                    <a href="https://www.idn.id/certificates" class="menu-item" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        My Certificates
+                    </a>
+                    <a href="https://www.idn.id/profile" class="menu-item" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Update Profile
+                    </a>
+                </div>
+                
+                <div class="user-actions">
+                    <button class="logout-btn" id="logout-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Simple form validation
-        document.querySelector('.btn-login').addEventListener('click', function(e) {
+        // DOM Elements
+        const loginForm = document.getElementById('login-form');
+        const forgotForm = document.getElementById('forgot-password-form');
+        const resendForm = document.getElementById('resend-verification-form');
+        const registerForm = document.getElementById('register-form');
+        const userDashboard = document.getElementById('user-dashboard');
+        const loading = document.getElementById('loading');
+        
+        // Toggle between forms
+        function showForm(formId) {
+            // Hide all forms
+            document.querySelectorAll('.form').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            // Hide user dashboard
+            userDashboard.style.display = 'none';
+            
+            // Hide loading
+            loading.style.display = 'none';
+            
+            // Show selected form
+            document.getElementById(formId).classList.add('active');
+        }
+        
+        // Show loading
+        function showLoading() {
+            document.querySelectorAll('.form').forEach(form => {
+                form.classList.remove('active');
+            });
+            userDashboard.style.display = 'none';
+            loading.style.display = 'flex';
+        }
+        
+        // Show Dashboard
+        function showDashboard(userData) {
+            document.querySelectorAll('.form').forEach(form => {
+                form.classList.remove('active');
+            });
+            loading.style.display = 'none';
+            
+            // Update user info
+            document.getElementById('user-name').textContent = userData.name;
+            document.getElementById('user-email').textContent = userData.email;
+            
+            // Set first letter of name as avatar
+            const firstLetter = userData.name.charAt(0).toUpperCase();
+            document.querySelector('.user-avatar').textContent = firstLetter;
+            
+            // Display dashboard
+            userDashboard.style.display = 'flex';
+        }
+        
+        // Form navigation event listeners
+        document.getElementById('forgot-password-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            showForm('forgot-password-form');
+        });
+        
+        document.getElementById('resend-verification-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            showForm('resend-verification-form');
+        });
+        
+        document.getElementById('register-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            showForm('register-form');
+        });
+        
+        document.getElementById('back-to-login-from-forgot').addEventListener('click', function() {
+            showForm('login-form');
+        });
+        
+        document.getElementById('back-to-login-from-resend').addEventListener('click', function() {
+            showForm('login-form');
+        });
+        
+        document.getElementById('back-to-login-from-register').addEventListener('click', function() {
+            showForm('login-form');
+        });
+        
+        // Form submissions
+        loginForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const email = document.querySelector('input[type="email"]').value;
-            const password = document.querySelector('input[type="password"]').value;
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
             
             if (!email || !password) {
-                alert('Please fill in all required fields');
+                document.getElementById('login-error').style.display = 'block';
                 return;
             }
             
-            // Simulate login process
-            this.textContent = 'Loading...';
-            this.disabled = true;
+            showLoading();
             
+            // Simulate login API call
             setTimeout(() => {
-                alert('Login successful!');
-                this.textContent = 'Login';
-                this.disabled = false;
+                // For demo purposes, any login attempt succeeds
+                const userData = {
+                    name: email.split('@')[0],
+                    email: email
+                };
+                
+                // Store in session
+                sessionStorage.setItem('user', JSON.stringify(userData));
+                
+                // Show dashboard
+                showDashboard(userData);
             }, 1500);
+        });
+        
+        forgotForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('reset-email').value;
+            
+            if (!email) return;
+            
+            showLoading();
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('reset-success').style.display = 'block';
+                showForm('forgot-password-form');
+                
+                // Redirect to IDN website after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'https://www.idn.id/reset-password';
+                }, 3000);
+            }, 1500);
+        });
+        
+        resendForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('verify-email').value;
+            
+            if (!email) return;
+            
+            showLoading();
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('verify-success').style.display = 'block';
+                showForm('resend-verification-form');
+                
+                // Redirect to IDN website after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'https://www.idn.id/verify-email';
+                }, 3000);
+            }, 1500);
+        });
+        
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-password-confirm').value;
+            
+            if (!name || !email || !password || password !== confirmPassword) {
+                alert('Please fill all fields correctly. Make sure passwords match.');
+                return;
+            }
+            
+            showLoading();
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('register-success').style.display = 'block';
+                showForm('register-form');
+                
+                // Redirect to IDN website after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'https://www.idn.id/register-success';
+                }, 3000);
+            }, 1500);
+        });
+        
+        // Logout
+        document.getElementById('logout-button').addEventListener('click', function() {
+            // Clear session
+            sessionStorage.removeItem('user');
+            
+            // Show login form
+            showForm('login-form');
+        });
+        
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            
+            if (user) {
+                showDashboard(user);
+            }
+        });
+        
+        // Add click event to all menu items for IDN website redirection
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                // Let the default link behavior work (opening in new tab)
+                // but also get the href value for demonstration
+                const targetUrl = this.getAttribute('href');
+                console.log(`Navigating to: ${targetUrl}`);
+            });
         });
     </script>
 </body>
