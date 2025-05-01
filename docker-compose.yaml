@@ -5,7 +5,7 @@ services:
     image: andretanwee/simple-apps-andre
     build: ./app
     ports:
-      - "3001:3000"
+      - "3002:3000"
     volumes:
       - "vol-simple:/app/public/image"
 
